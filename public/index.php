@@ -23,7 +23,11 @@ $app->post('/{entity}', function(Request $request) {
 
 $app->get('/teste', function() use($app) {
 
-  return new Response('oi', 200,  array('Content-Type' => 'text/json'));
+  $result['status'] = 'success';
+  $result['data'] = array('willian mano', 'Bruno Araujo');
+
+  return new Response( json_encode( $result['data'] ), 200, array('Content-Type' => 'text/json'));
+  // return new Response('{message: ok}', 200,  array('Content-Type' => 'text/json'));
 
 });
 
