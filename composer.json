@@ -1,0 +1,13 @@
+{
+    "require": {
+        "silex/silex": "1.0.*@dev",
+        "symfony/monolog-bridge": "~2.1",
+        "symfony/validator": "*",
+        "symfony/class-loader": "*",
+        "symfony/console": "*",
+        "doctrine/common": "*",
+        "doctrine/dbal": ">=2.2.0,<2.4.0-dev",
+        "doctrine/orm": "*",
+        "swiftmailer/swiftmailer": "4.1.*"
+    }
+}
