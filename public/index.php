@@ -17,10 +17,6 @@ $app->get('/{entity}/{id}', function($entity, $id) {
   return $entity . ' => ' . $id;
 })->assert('id', '\d+');
 
-$app->post('/{entity}', function(Request $request) {
-  return new Response('{status: ok}', 200, array('Content-Type' => 'text/json'));
-});
-
 $app->get('/teste', function() use($app) {
 
   $result['status'] = 'success';
@@ -30,6 +26,23 @@ $app->get('/teste', function() use($app) {
   // return new Response('{message: ok}', 200,  array('Content-Type' => 'text/json'));
 
 });
+
+$app->post('/login', function(Request $request) use($app) {
+
+  $user = 'User: ' . $message = $request->get('user');
+  $pass = 'Pass: ' . $message = $request->get('pass');
+
+  $result['status'] = 'success';
+  $result['data'] = array('user' => $user, 'pass' => $pass);
+
+  return new Response( json_encode( $result ), 200, array('Content-Type' => 'text/json'));
+  // return new Response('{message: ok}', 200,  array('Content-Type' => 'text/json'));
+
+});
+
+// $app->post('/{entity}', function(Request $request) {
+//   return new Response('{status: ok}', 200, array('Content-Type' => 'text/json'));
+// });
 
 //options - used in cross domain access
 $app->match('{entity}/{id}', function ($entity, $id, Request $request) use ($app)
