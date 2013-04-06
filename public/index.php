@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use model;
 
 require_once __DIR__.'/../bootstrap.php';
 
@@ -11,38 +12,28 @@ $app->get('/hello/{name}', function($name) use($app) {
     return 'Hello '.$app->escape($name);
 });
 
+$app->get('/testeorm', function() use($app, $em) {
+
+  $user = new User();
+
+  return print_r($user);//'Hello Doctrine';
+});
+
 $app['debug'] = true;
 
 $app->get('/{entity}/{id}', function($entity, $id) {
   return $entity . ' => ' . $id;
 })->assert('id', '\d+');
 
+$app->post('/{entity}', function(Request $request) {
+  return new Response('{status: ok}', 200, array('Content-Type' => 'text/json'));
+});
+
 $app->get('/teste', function() use($app) {
 
-  $result['status'] = 'success';
-  $result['data'] = array('willian mano', 'Bruno Araujo');
-
-  return new Response( json_encode( $result['data'] ), 200, array('Content-Type' => 'text/json'));
-  // return new Response('{message: ok}', 200,  array('Content-Type' => 'text/json'));
+  return new Response('oi', 200,  array('Content-Type' => 'text/json'));
 
 });
-
-$app->post('/login', function(Request $request) use($app) {
-
-  $user = 'User: ' . $message = $request->get('user');
-  $pass = 'Pass: ' . $message = $request->get('pass');
-
-  $result['status'] = 'success';
-  $result['data'] = array('user' => $user, 'pass' => $pass);
-
-  return new Response( json_encode( $result ), 200, array('Content-Type' => 'text/json'));
-  // return new Response('{message: ok}', 200,  array('Content-Type' => 'text/json'));
-
-});
-
-// $app->post('/{entity}', function(Request $request) {
-//   return new Response('{status: ok}', 200, array('Content-Type' => 'text/json'));
-// });
 
 //options - used in cross domain access
 $app->match('{entity}/{id}', function ($entity, $id, Request $request) use ($app)
@@ -56,6 +47,9 @@ $app->match('{entity}/{id}', function ($entity, $id, Request $request) use ($app
 
 $app->before(function (Request $request) use ($app) {
     if ($request->getMethod() == 'OPTIONS') {
+        return;
+    }
+    if ($request->getPathInfo() == '/testeorm') {
         return;
     }
 
@@ -77,7 +71,7 @@ $app->after(function (Request $request, Response $response) {
         break;
 
         default:
-            $response->headers->set('Content-Type', 'text/json');
+            //$response->headers->set('Content-Type', 'text/json');
         break;
     }
 });
