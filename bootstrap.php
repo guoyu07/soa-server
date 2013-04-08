@@ -6,7 +6,10 @@ use Doctrine\ORM\Tools\Setup,
     Doctrine\Common\Cache\ApcCache as Cache;
 
 $loader = require_once __DIR__.'/vendor/autoload.php';
-//$loader->add('model', __DIR__ . '/library');
+// $loader->add('Model', __DIR__ . '/library');
+
+$classLoaderModel = new \Doctrine\Common\ClassLoader('Model', __DIR__ . '/library' );
+$classLoaderModel->register(); 
 
 if(!getenv('APPLICATION_ENV'))
   $env = 'testing';
@@ -26,9 +29,9 @@ $config->setProxyDir('/tmp');
 $config->setProxyNamespace('Leme\EntityProxy');
 $config->setAutoGenerateProxyClasses(true);
 
-$driver = $config->newDefaultAnnotationDriver(__DIR__."/library/model");
+$driver = $config->newDefaultAnnotationDriver(__DIR__."/library/Model");
 // Caching Configuration (5)
-if (APPLICATION_ENV == "development") {
+if ($env == "development" || "testing") {
   $cache = new \Doctrine\Common\Cache\ArrayCache();
 } else {
   $cache = new \Doctrine\Common\Cache\ApcCache();

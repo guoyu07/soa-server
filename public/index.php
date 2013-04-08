@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use model;
+use Model\User;
 
 require_once __DIR__.'/../bootstrap.php';
 
@@ -14,9 +14,19 @@ $app->get('/hello/{name}', function($name) use($app) {
 
 $app->get('/testeorm', function() use($app, $em) {
 
-  $user = new User();
+  // $user = new User();
+  // $user->setName('Kilton Calvet');
+  // $user->setEmail('kiltoncls@gmail.com');
+  // $user->setUsername('kiltoncls');
+  // $user->setPassword('1234');
+  // $em->persist($user);
+  // $em->flush();
 
-  return print_r($user);//'Hello Doctrine';
+    //$data = $em->find('model\\'.ucfirst($entity), $id);
+
+    $user = $em->find("Model\\User", 2);
+
+  return print_r($user);
 });
 
 $app['debug'] = true;
